@@ -53,7 +53,7 @@ public class Deposit
     {
         return this.Money;
     }
-    public int getResult()
+    public float getResult()
     {
         return this.Result;
     }

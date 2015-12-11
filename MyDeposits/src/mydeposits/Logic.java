@@ -40,6 +40,29 @@ public class Logic {
         System.out.println(Input_Money);
         System.out.println(Input_Currency);
     }
+    int calculate_deposit(Deposit temp)
+    {
+        int result = 0;
+        int P=temp.getMoney();
+        int T=temp.getTime();
+        int K=temp.getPercent();
+        System.out.print(P+" "+T+""+K);
+        System.out.println();
+        result=P+(P*T*K*30/36500);
+        System.out.print(result);
+        System.out.println();
+        return result;
+    }
+    void calculating()
+    {
+        int temp = 0;
+       for(int i=0;i<List.size();i++)
+       {
+           temp = this.calculate_deposit(List.get(i));
+           List.get(i).setResult(temp);
+       }
+       
+    }
     void show_string(ResultSet rs) throws SQLException
     {
         String tmp;
