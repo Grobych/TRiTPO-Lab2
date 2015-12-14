@@ -12,7 +12,7 @@ import java.sql.SQLException;
  *
  * @author Alex
  */
-public class Deposit 
+public class Deposit implements Comparable
 {
     private String City;
     private String Bank;
@@ -61,5 +61,14 @@ public class Deposit
     {
         this.Result=Result;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        Deposit entry = (Deposit) o;
+        float result =  Result-entry.getResult();
+        if (result>0) return -1;
+        if (result<0) return 1;
+        else return 0;
+        }
     
 }

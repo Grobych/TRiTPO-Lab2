@@ -12,6 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -22,14 +25,14 @@ import java.util.Queue;
 public class Logic {
     private String Input_City;
     private int Input_Time;
-    private int Input_Currency;
     private int Input_Money;
+    double INF;
     LinkedList<Deposit> List = new LinkedList<Deposit>();
     
-    Logic(int Time, String City, int Currency, int Money)
+    Logic(int Time, String City, int Money)
     {
+        this.INF = 0.03;
         this.Input_City=City;
-        this.Input_Currency=Currency;
         this.Input_Money=Money;
         this.Input_Time=Time;
     }
@@ -38,9 +41,8 @@ public class Logic {
         System.out.println(Input_City);
         System.out.println(Input_Time);
         System.out.println(Input_Money);
-        System.out.println(Input_Currency);
     }
-    int calculate_deposit(Deposit temp)
+    int calculate_deposit(Deposit temp, boolean inflation)
     {
         int result = 0;
         int P=temp.getMoney();
@@ -49,20 +51,35 @@ public class Logic {
         System.out.print(P+" "+T+""+K);
         System.out.println();
         result=P+(P*T*K*30/36500);
+        if (inflation) result=(int) (result-(result*INF));
         System.out.print(result);
         System.out.println();
         return result;
     }
-    void calculating()
+    void calculating(boolean inflation)
     {
         int temp = 0;
-       for(int i=0;i<List.size();i++)
-       {
-           temp = this.calculate_deposit(List.get(i));
-           List.get(i).setResult(temp);
-       }
-       
+        Iterator i = List.iterator();
+        while(i.hasNext())
+        {
+            Deposit obj = (Deposit) i.next();
+            temp = this.calculate_deposit(obj, inflation);
+            obj.setResult(temp);            
+        }
+        
     }
+    
+    void Sort()
+    {
+        Collections.sort(List, new Comparator<Deposit>() {
+        public int compare(Deposit o1, Deposit o2) {
+                return o1.compareTo(o2);
+        }
+        });
+    }
+    
+    
+    
     void show_string(ResultSet rs) throws SQLException
     {
         String tmp;
